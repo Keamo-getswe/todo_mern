@@ -77,7 +77,6 @@ app.get("/:listName", (req, res) => {
 	    }
 	}
     });
-    
 });
 
 
@@ -106,6 +105,8 @@ app.post("/", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const checkedItemId = req.body.checkbox;
+    const listName = req.body.listName;
+    
     Item.findByIdAndRemove(checkedItemId, (err) => {
 	if (err) {
             console.log(err);
