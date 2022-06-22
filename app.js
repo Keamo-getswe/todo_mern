@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
+const _ = require("lodash");
 
 const app = express();
 
@@ -60,7 +61,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/:listName", (req, res) => {
-    const customListName = req.params.listName;
+    const customListName = _.capitalize(req.params.listName);
     List.findOne({name: customListName}, (err, list) =>{
         if (err) {
 	    console.log(err);
@@ -94,7 +95,6 @@ app.post("/", (req, res) => {
 	    res.redirect("/");
 	} else {
 	    List.findOne({name: listName}, (err, list) => {
-		console.log(req.body);
 	        list.items.push(item);
 		list.save();
 		res.redirect("/" + listName);
@@ -106,15 +106,23 @@ app.post("/", (req, res) => {
 app.post("/delete", (req, res) => {
     const checkedItemId = req.body.checkbox;
     const listName = req.body.listName;
-    
-    Item.findByIdAndRemove(checkedItemId, (err) => {
-	if (err) {
-            console.log(err);
-	} else {
-	    console.log("Item successfully deleted");
-	    res.redirect("/")
-	}
-    });
+    if (listName === date.getDate()) {
+    	Item.findByIdAndRemove(checkedItemId, (err) => {
+	    if (err) {
+                console.log(err);
+	    } else {
+	        res.redirect("/")
+	    }
+        });
+    } else {
+	List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, (err, list) => {
+	    if (err) {
+		console.log(err);
+	    } else {
+		res.redirect("/" + listName);
+	    }
+	});
+    }
 });
 
 app.get("/about", (req, res) => {
