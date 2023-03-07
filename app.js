@@ -4,7 +4,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
+const password = "zZbtESF309gXM0j5";
 const port = process.env.PORT || 3001;
+const username = "morobikmobi";
 const _ = require("lodash");
 
 const app = express();
@@ -14,7 +16,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB");
+mongoose.connect("mongodb://mongodb+srv://" + username + ":" + password + "@cluster0.fd9w6as.mongodb.net/todolistDB");
 
 const itemsSchema = {
     name: String
