@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
+const port = process.env.PORT || 3001;
 const _ = require("lodash");
 
 const app = express();
@@ -45,41 +46,40 @@ const List = mongoose.model("List", listsSchema);
 app.get("/", (req, res) => {
     const day = date.getDate();
     Item.find({}, (err, foundItems) => {
-	if (foundItems.length === 0) {
-	    Item.insertMany(defaultItems, (err) => {
-    		if (err) {
-		    console.log(err);
+		if (foundItems.length === 0) {
+	    	Item.insertMany(defaultItems, (err) => {
+    			if (err) {
+		    		console.log(err);
     	    	} else {
-	    	    console.log("Defaults added successfully");
+	    	    	console.log("Defaults added successfully");
     	    	}
-	    });
-	    res.redirect("/");
-	} else {
-	    res.render("list", {listTitle: day, newListItems: foundItems});
-	}
+	    	});
+	    	res.redirect("/");
+		} else {
+	    	res.render("list", {listTitle: day, newListItems: foundItems});
+		}
     });
 });
 
 app.get("/:listName", (req, res) => {
     const customListName = _.capitalize(req.params.listName);
-    List.findOne({name: customListName}, (err, list) =>{
+    List.findOne({name: customListName}, (err, foundList) =>{
         if (err) {
-	    console.log(err);
-	} else {
-	    if (list !== null) {
-		res.render("list", {listTitle: list.name, newListItems: list.items});
-	    } else {
-        	const list = new List({
-            	    name: customListName,
-	   	    items: defaultItems
-        	});
-        	list.save();
-		res.redirect("/" + customListName);
-	    }
-	}
+	    	console.log(err);
+		} else {
+	    	if (foundList !== null) {
+				res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
+	    	} else {
+        		const list = new List({
+                	name: customListName,
+	   	    		items: defaultItems
+        		});
+        		list.save();
+				res.redirect("/" + customListName);
+	    	}
+		}
     });
 });
-
 
 app.post("/", (req, res) => {
 
@@ -96,8 +96,8 @@ app.post("/", (req, res) => {
 	} else {
 	    List.findOne({name: listName}, (err, list) => {
 	        list.items.push(item);
-		list.save();
-		res.redirect("/" + listName);
+			list.save();
+			res.redirect("/" + listName);
 	    });
 	}
 
@@ -108,20 +108,20 @@ app.post("/delete", (req, res) => {
     const listName = req.body.listName;
     if (listName === date.getDate()) {
     	Item.findByIdAndRemove(checkedItemId, (err) => {
-	    if (err) {
-                console.log(err);
-	    } else {
-	        res.redirect("/")
-	    }
+	    	if (err) {
+           	    console.log(err);
+	    	} else {
+	    	    res.redirect("/")
+	    	}
         });
     } else {
-	List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, (err, list) => {
-	    if (err) {
-		console.log(err);
-	    } else {
-		res.redirect("/" + listName);
-	    }
-	});
+		List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: checkedItemId}}}, (err, list) => {
+	    	if (err) {
+				console.log(err);
+	    	} else {
+				res.redirect("/" + listName);
+	    	}
+		});
     }
 });
 
@@ -129,6 +129,6 @@ app.get("/about", (req, res) => {
 	res.render("about");
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
 	console.log("Server started on port 3000...");
 });
