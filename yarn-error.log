@@ -1,0 +1,47 @@
+Arguments: 
+  /home/kea/.nvm/versions/node/v18.12.1/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /home/kea/.nvm/versions/node/v18.12.1/bin:/home/kea/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.12.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: read ECONNRESET
+      at TLSWrap.onStreamRead (node:internal/stream_base_commons:217:20)
+
+npm manifest: 
+  {
+    "name": "todolist_v1",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Keamogetswe Mphakalasi",
+    "license": "ISC",
+    "dependencies": {
+      "body-parser": "^1.20.1",
+      "ejs": "^3.1.7",
+      "express": "^4.18.2",
+      "lodash": "^4.17.21",
+      "mongoose": "^6.7.5",
+      "n": "^9.0.1",
+      "nodemon": "^2.0.20",
+      "stable": "^0.1.8"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
