@@ -5,6 +5,11 @@ html {
   font-family: 'helvetica neue';
 }
 
+body {
+  height: 100vh;
+  margin: 0;
+}
+
 h1 {
   color: #fff;
   padding: 10px;
@@ -51,6 +56,11 @@ p {
   font-size: 20px;
   font-weight: 200;
   color: white;
+}
+
+#default-message {
+  text-align: center;
+  user-select: none;
 }
 
 form.item {
@@ -101,8 +111,9 @@ input[type="text"]:focus {
 }
 
 footer {
+  position: absolute;
   width: 100%;
   text-align: center;
   color: white;
-  padding: 60px 0;
+  bottom: 0;
 }

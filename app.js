@@ -16,6 +16,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+mongoose.set('strictQuery', false);
 mongoose.connect("mongodb+srv://" + username + ":" + password + "@cluster0.fd9w6as.mongodb.net/todolistDB", {useNewUrlParser: true});
 
 const itemsSchema = {
@@ -23,20 +24,6 @@ const itemsSchema = {
 };
 
 const Item = mongoose.model("Item", itemsSchema);
-
-const defaultItem1 = new Item({
-    name: "Do the dishes"
-});
-
-const defaultItem2 = new Item({
-    name: "Do the laundry"
-});
-
-const defaultItem3 = new Item({
-    name: "Feed the dogs"
-});
-
-const defaultItems = [defaultItem1, defaultItem2, defaultItem3];
 
 const listsSchema = {
     name: String,
@@ -48,18 +35,7 @@ const List = mongoose.model("List", listsSchema);
 app.get("/", (req, res) => {
     const day = date.getDate();
     Item.find({}, (err, foundItems) => {
-		if (foundItems.length === 0) {
-	    	Item.insertMany(defaultItems, (err) => {
-    			if (err) {
-		    		console.log(err);
-    	    	} else {
-	    	    	console.log("Defaults added successfully");
-    	    	}
-	    	});
-	    	res.redirect("/");
-		} else {
-	    	res.render("list", {listTitle: day, newListItems: foundItems});
-		}
+		res.render("list", {listTitle: day, newListItems: foundItems});
     });
 });
 
