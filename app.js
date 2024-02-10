@@ -33,9 +33,9 @@ const listsSchema = {
 const List = mongoose.model("List", listsSchema);
 
 app.get("/", (req, res) => {
-    const day = date.getDate();
+    const day = date.getToday();
     Item.find({}, (err, foundItems) => {
-		res.render("list", {listTitle: day, newListItems: foundItems});
+		res.render("dashboard");
     });
 });
 
@@ -50,7 +50,7 @@ app.get("/:listName", (req, res) => {
 	    	} else {
         		const list = new List({
                 	name: customListName,
-	   	    		items: defaultItems
+	   	    		items: []
         		});
         		list.save();
 				res.redirect("/" + customListName);
@@ -68,7 +68,7 @@ app.post("/", (req, res) => {
 	    name: itemName
 	});
 
-	if (listName === date.getDate()) {
+	if (listName === date.getToday()) {
 	    item.save();	
 	    res.redirect("/");
 	} else {
@@ -84,7 +84,7 @@ app.post("/", (req, res) => {
 app.post("/delete", (req, res) => {
     const checkedItemId = req.body.checkbox;
     const listName = req.body.listName;
-    if (listName === date.getDate()) {
+    if (listName === date.getToday()) {
     	Item.findByIdAndRemove(checkedItemId, (err) => {
 	    	if (err) {
            	    console.log(err);

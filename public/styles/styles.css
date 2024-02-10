@@ -2,17 +2,79 @@ html {
   background-color: #E4E9FD;
   background-image: -webkit-linear-gradient(65deg, #FF0000 10%, #414141 50%);
   background-repeat: no-repeat;
-  font-family: 'helvetica neue';
+  font-family: 'Roboto Slab', sans-serif;
 }
 
 body {
+  display: flex;
   height: 100vh;
   margin: 0;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
   color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  width: 100%;
+}
+
+h1 {
   padding: 10px;
+}
+
+.navbar {
+  background-color: #252525;
+  height: 100vh;
+  box-shadow: 1px 3px 5px 1px black;
+  width: 200px;
+}
+
+.navbar-heading {
+  padding-left: 20px;
+}
+
+.navbar-heading a {
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+li a {
+  display: block;
+  text-align: center;
+  padding: 8px 16px;
+  color: white;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+li a:hover {
+  background-color: #111111;
+}
+
+#list-view {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#dashboard-view {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.dashboard-heading {
+  padding-left: 50px;
+
 }
 
 .box {
@@ -53,7 +115,6 @@ input[type="checkbox"] {
 p {
   margin: 0;
   padding: 20px;
-  font-size: 20px;
   font-weight: 200;
   color: white;
 }
@@ -78,6 +139,10 @@ button {
   font-size: 30px;
   padding-bottom: 6px;
   border-width: 0;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 input[type="text"] {

@@ -1,6 +1,6 @@
 //jshint:esversion:6
 
-exports.getDate = () => {
+exports.getToday = () => {
 	const today = new Date();
 	const options = {
 		weekday: "long",
